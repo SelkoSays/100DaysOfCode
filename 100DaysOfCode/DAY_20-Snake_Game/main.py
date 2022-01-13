@@ -10,12 +10,31 @@ screen.setup(width=600,height=600)
 screen.bgcolor("black")
 screen.title("My Snake Game")
 screen.tracer(0)
+sleep_time = 0.1
+speed_score = 1
+
+# Mode
+difficulty = screen.textinput("Difficulty","Type in a level of difficulty. (Easy/Medium/Hard): ").lower()
+#difficulty = "medium"
+
+# Window on top
+rootwindow = screen.getcanvas().winfo_toplevel()
+rootwindow.call('wm', 'attributes', '.', '-topmost', '1')
+rootwindow.call('wm', 'attributes', '.', '-topmost', '0')
+
 
 # Objects
 snake = Snake()
 food = Food()
 scoreboard = Scoreboard()
+snake_speed = Scoreboard(False)
+snake_difficulty = Scoreboard(False)
+count_down = Scoreboard(False)
+snake_speed.speed_borad(speed_score)
+snake_difficulty.difficulty_board(difficulty)
 snake.hideturtle()
+
+count_down.countdown(5)
 
 
 # Movements
@@ -25,11 +44,12 @@ screen.onkey(snake.down,"Down")
 screen.onkey(snake.left,"Left")
 screen.onkey(snake.right,"Right")
 
+
 # Code
 game_is_on = True
 while game_is_on:
     screen.update()
-    time.sleep(0.1)
+    time.sleep(sleep_time)
 
     snake.move()
 
@@ -38,9 +58,24 @@ while game_is_on:
         food.refresh()
         snake.extend()
         scoreboard.increase_score()
+        if difficulty == "hard":
+            if sleep_time > 0.04 and scoreboard.score % 2 == 0:
+                sleep_time -=0.005
+                speed_score += 1
+                snake_speed.speed_borad(speed_score)
+        elif  difficulty == "medium":
+            if sleep_time > 0.05 and scoreboard.score % 4 == 0:
+                sleep_time -=0.005
+                speed_score += 1
+                snake_speed.speed_borad(speed_score)
+        else:
+            if sleep_time > 0.06 and scoreboard.score % 5 == 0:
+                sleep_time -=0.005
+                speed_score += 1
+                snake_speed.speed_borad(speed_score)
 
     # Detect collision with wall
-    if snake.head.xcor() > 280 or snake.head.xcor() < -290 or snake.head.ycor() > 290 or snake.head.ycor() < -290:
+    if snake.head.xcor() > 290 or snake.head.xcor() < -290 or snake.head.ycor() > 290 or snake.head.ycor() < -290:
         game_is_on = False
         scoreboard.game_over()
 
