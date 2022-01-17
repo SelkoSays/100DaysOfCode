@@ -1,9 +1,16 @@
 from turtle import Turtle, Screen
 STARTING_POSITION = [(0,0),(-20,0),(-40,0)]
-SHAPES = {"hu":"Snake_img\\snake_head_up.gif","hl":"Snake_img\\snake_head_left.gif", "hd":"Snake_img\\snake_head_down.gif", "hr":"Snake_img\\snake_head_right.gif",\
-        "bud":"Snake_img\\snake_bod_up_down.gif","blr": "Snake_img\\snake_bod_left_right.gif",\
-        "tul":"Snake_img\\snake_turn_up_left.gif", "tur":"Snake_img\\snake_turn_up_right.gif", "tdl":"Snake_img\\snake_turn_down_left.gif", "tdr":"Snake_img\\snake_turn_down_right.gif",\
-        "tr":"Snake_img\\snake_tail_right.gif", "tl":"Snake_img\\snake_tail_left.gif", "tu":"Snake_img\\snake_tail_up.gif", "td":"Snake_img\\snake_tail_down.gif"}
+#"""
+SHAPES = {"hu":"Snake_img/snake_head_up.gif","hl":"Snake_img/snake_head_left.gif", "hd":"Snake_img/snake_head_down.gif", "hr":"Snake_img/snake_head_right.gif",\
+        "bud":"Snake_img/snake_bod_up_down.gif","blr": "Snake_img/snake_bod_left_right.gif",\
+        "tul":"Snake_img/snake_turn_up_left.gif", "tur":"Snake_img/snake_turn_up_right.gif", "tdl":"Snake_img/snake_turn_down_left.gif", "tdr":"Snake_img/snake_turn_down_right.gif",\
+        "tr":"Snake_img/snake_tail_right.gif", "tl":"Snake_img/snake_tail_left.gif", "tu":"Snake_img/snake_tail_up.gif", "td":"Snake_img/snake_tail_down.gif"}
+"""
+SHAPES = {"hu":"Snake_img1/snake_head_up.gif","hl":"Snake_img1/snake_head_left.gif", "hd":"Snake_img1/snake_head_down.gif", "hr":"Snake_img1/snake_head_right.gif",\
+        "bud":"Snake_img1/snake_bod_up_down.gif","blr": "Snake_img1/snake_bod_left_right.gif",\
+        "tul":"Snake_img1/snake_turn_up_left.gif", "tur":"Snake_img1/snake_turn_up_right.gif", "tdl":"Snake_img1/snake_turn_down_left.gif", "tdr":"Snake_img1/snake_turn_down_right.gif",\
+        "tr":"Snake_img1/snake_tail_right.gif", "tl":"Snake_img1/snake_tail_left.gif", "tu":"Snake_img1/snake_tail_up.gif", "td":"Snake_img1/snake_tail_down.gif"}
+#"""
 HR = SHAPES["hr"]
 HL = SHAPES["hl"]
 HD = SHAPES["hd"]
@@ -43,7 +50,13 @@ class Snake(Turtle):
 
     def add_segment(self,pos):
         new_seg = Turtle("square")
-        new_seg.shape(BLR)
+        if self.segments != []:
+            if self.segments[-1].heading() == 0 or self.segments[-1].heading() == 180:
+                new_seg.shape(BLR)
+            else:
+                new_seg.shape(BUD)
+        else:
+            new_seg.shape(BUD)
         new_seg.color("white")
         new_seg.penup()
         new_seg.goto(pos)
